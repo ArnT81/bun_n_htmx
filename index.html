@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Testing HTMX</title>
+	<meta name="Author" content="Anders Söderberg">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Testing out bun & HTMX">
+	<meta name="keywords" content="web, developer, frontend, backend, programmer, UI/UX, css">
+	<meta name="robots" content="index, follow">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff;">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="shortcut icon" href="#" />
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://unpkg.com/htmx.org"></script>
+	<script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
+	<script src="https://unpkg.com/mustache@latest"></script>
+	<script rel="script" src="index.js"></script>
+</head>
+
+<body>
+	<img src="http://127.0.0.1:4000/image" alt="me" height="200px">
+
+	<hr>
+
+	<div hx-ext="client-side-templates"> <!--!!!   DO NOT FORGET THIS WRAPPER   !!! -->
+		<select name="language" hx-trigger="change, load" hx-get="http://127.0.0.1:4000/frameworks?language=Ruby"
+			hx-swap="innerHTML" hx-target="#select" mustache-template="options_template">
+			<option value="Python">Python</option>
+			<option value="Ruby">Ruby</option>
+			<option value="JavaScript">JavaScript</option>
+		</select>
+
+		<select id="select"></select>
+
+		<template id="options_template">
+			{{#library}}
+			<option>
+				{{.}}
+			</option>
+			{{/library}}
+		</template>
+	</div>
+
+	<hr>
+
+	<div hx-ext="client-side-templates">
+		<button hx-get="https://jsonplaceholder.typicode.com/users/" hx-swap="innerHTML" hx-target="#users"
+			mustache-template="users_template">
+			Get users
+		</button>
+
+		<p id="users">temporary text</p>
+
+		<template id="users_template">
+			{{#users}}
+			<div>
+				<span> id: {{id}}, </span>
+				<span> name: {{name}}, </span>
+				<span> email: {{email}},</span>
+			</div>
+			{{/users}}
+		</template>
+	</div>
+
+	<hr>
+
+	<div hx-ext="client-side-templates">
+		<button hx-get="http://127.0.0.1:4000/stooges" hx-swap="innerHTML" hx-target="#stooges"
+			mustache-template="stooges_template">
+			Get Stoges
+		</button>
+
+		<p id="stooges"></p>
+
+		<template id="stooges_template">
+			{{#stooges}}
+			<b>{{name}}</b>
+			{{/stooges}}
+		</template>
+	</div>
+</body>
+
+</html>
